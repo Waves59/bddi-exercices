@@ -21,8 +21,8 @@ class Game {
     function init() {
       lives = 5
 
-      word = // TODO: récupérer un mot random depuis WORD_LIST (1 ligne)
-        letters = []
+      word = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];// TODO: récupérer un mot random depuis WORD_LIST (1 ligne
+        letters = [];
       // Count without duplicated
       missing = Array.prototype.filter.call(word, (letter, i) => {
         return word.indexOf(letter) == i
@@ -30,15 +30,33 @@ class Game {
     }
 
     function addLetter(letter) {
-      // TODO: cette fonction doit :
-      // - vérifier que la lettre n'a pas déjà été tentée auparavent
-      // - si ce n'est pas le cas, l'ajouter dans le tableau `letters`
-      // - modifier `lives` et `missing` en conséquence
-      // - ne retourne rien
-      // - (6 lignes)
+
+      if (letters.indexOf(letter) > -1) return // Already tried
+      letters.push(letter)
+      if (word.indexOf(letter) < 0)
+        lives--
+      else
+        missing--
     }
+      
+
+    
 
     function displayWord() {
+      
+      var display = ''
+      
+      for (var i = 0, len = word.length; i < len; i++) {
+        if (letters.indexOf(word[i]) < 0) {
+          // Not found letter
+          display += '_'
+        } else {
+          // Found letter
+          display += word[i]
+        }
+      }
+      return display
+
       // TODO: cette fonction doit:
       // - retourner une chaine de caractère
       // - les lettres trouvées et celles manquantes remplacées par un underscore
@@ -53,7 +71,7 @@ class Game {
     }
 
     function onAnswer(answer) {
-      addLetter(/* TODO: appeler la fonction addLetter en envoyant la première lettre de `answer` (1 ligne) */)
+      addLetter(answer[0])
 
       if (missing > 0 && lives > 0) {
         prompt(onAnswer)

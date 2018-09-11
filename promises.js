@@ -24,3 +24,11 @@ function createUsers(users) {
 }
 
 // Votre code ici (8 lignes)
+getUsers()
+  .then(createUsers)
+  .then(
+    (res) => { 
+      Promise.all(res).then(() => console.log("Tout les comptes ont étaient crée"))
+     }
+  )
+
